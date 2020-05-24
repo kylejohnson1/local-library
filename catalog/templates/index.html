@@ -13,6 +13,8 @@
     <li><strong>Books with titles that contain "novel":</strong> {{ num_books_with_novel }}</li>
     <li><strong>Genres with names that contain "fiction":</strong> {{ num_genres_with_fiction }}</li>
   </ul>
+
+  <p>You have visted this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock %}
 
 {% block title %}<title>Local Library Homepage</title>{% endblock%}
