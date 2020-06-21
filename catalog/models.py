@@ -52,6 +52,9 @@ class Book(models.Model):
 
     display_genre.short_description = 'Genre'
 
+    class Meta:
+        permissions = (("can_edit_books", "Add, edit, delete Book records"),)
+
 import uuid # Required for unique book instances
 
 class BookInstance(models.Model):
@@ -100,6 +103,7 @@ class Author(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+        permissions = (("can_edit_authors", "Add, edit, delete Author records"),)
 
     def get_absolute_url(self):
         """Returns the url to process a particular author instance."""
