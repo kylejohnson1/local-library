@@ -120,6 +120,7 @@ def renew_book_librarian(request, pk):
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
     fields = '__all__'
+    initial = {'date_of_death': '05/01/2018'}
     permission_required = 'catalog.can_edit_authors'
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
