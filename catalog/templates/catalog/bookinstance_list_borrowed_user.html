@@ -2,13 +2,20 @@
 
 {% block content %}
     <h1>Borrowed Books</h1>
-
+    <p>This is a list of the books you have borrowed.</p>
     {% if bookinstance_list %}
-    <ul>
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Due Back</th>
+            </tr>
+        </thead>
         {% for bookinst in bookinstance_list %}
-        <li class="{% if bookinst.is_overdue %}text_danger{% endif %}">
-            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
-        </li>
+        <tr>
+            <td><a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a></td>
+            <td>{{ bookinst.due_back }}</td>
+        </tr>
         {% endfor %}
     </ul>
     {% else %}

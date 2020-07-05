@@ -1,5 +1,14 @@
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
+table a {
+    color: white;
+}
+
+table a:hover {
+    color: lightblue;
+    text-decoration: none;
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1000px;
 }

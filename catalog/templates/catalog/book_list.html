@@ -1,18 +1,32 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Book List</h1>
+    <h1>Books</h1>
     {% if perms.catalog.can_edit_books %}
         <p><a href="{% url 'book_create' %}">Create Book</a></p>
     {% endif %}
+    <p>Here you can browse a list of all books available from LocalLibrary.</p>
     {% if book_list %}
-    <ul>
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre(s)</th>
+                <th>Language</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for book in book_list %}
-            <li>
-                <a href="{{ book.get_absolute_url }}" >{{ book.title }}</a> ({{book.author}})
-            </li>
+            <tr>
+                <td><a href="{{ book.get_absolute_url }}" >{{ book.title }}</a></td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.genre.all|join:", " }}</td>
+                <td>{{ book.language }}</td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
     {% else %}
         <p>There are no books in the library.</p>
     {% endif %}
