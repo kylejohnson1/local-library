@@ -55,6 +55,11 @@ class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
 
+    # overwrite get_ordering to order the table using query string
+    # orders by book title by default
+    def get_ordering(self):
+        return self.request.GET.get('order_by', 'title')
+
 class BookDetailView(generic.DetailView):
     model = Book
 

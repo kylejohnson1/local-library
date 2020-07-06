@@ -10,19 +10,19 @@
     <table class="table table-dark table-hover">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Author</th>
+                <th><a href="?order_by=title">Title</a></th>
+                <th><a href="?order_by=author">Author</a></th>
+                <th><a href="?order_by=language">Language</a></th>
                 <th>Genre(s)</th>
-                <th>Language</th>
             </tr>
         </thead>
         <tbody>
         {% for book in book_list %}
             <tr>
-                <td><a href="{{ book.get_absolute_url }}" >{{ book.title }}</a></td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.genre.all|join:", " }}</td>
+                <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
+                <td><a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></td>
                 <td>{{ book.language }}</td>
+                <td>{{ book.genre.all|join:", " }}</td>
             </tr>
         {% endfor %}
         </tbody>
