@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm, BookFilterForm
 from catalog.models import Author
 
 # Create your views here.
@@ -57,8 +58,36 @@ class BookListView(generic.ListView):
 
     # overwrite get_ordering to order the table using query string
     # orders by book title by default
-    def get_ordering(self):
-        return self.request.GET.get('order_by', 'title')
+    #def get_ordering(self):
+    #    return self.request.GET.get('order_by', 'title')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = BookFilterForm(self.request.GET)
+        return context
+
+    # filter list by parameters returned by form in query string
+    def get_queryset(self):
+        # get filters from query parameters
+        order_books_by = self.request.GET.get('order_by', 'title')
+        title_contains = self.request.GET.get('title_contains', '')
+        author_contains = self.request.GET.get('author_contains', '')
+        language = self.request.GET.get('language', 'any')
+        genre = self.request.GET.get('genre', 'any')
+
+        # filter books using query parameters, if they were specified
+        query_result = Book.objects.all()
+        if title_contains:
+            query_result = query_result.filter(title__icontains=title_contains)
+        if author_contains:
+            # use Q objects for "OR" statements
+            query_result = query_result.filter(Q(author__first_name__icontains=author_contains) | Q(author__last_name__icontains=author_contains))
+        if language != 'any':
+            query_result = query_result.filter(language__name__exact=language)
+        if genre != 'any':
+            query_result = query_result.filter(genre__name__exact=genre)
+
+        return query_result.order_by(order_books_by)
 
 class BookDetailView(generic.DetailView):
     model = Book

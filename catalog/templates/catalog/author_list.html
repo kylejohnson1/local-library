@@ -11,12 +11,14 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Books</th>
             </tr>
         </thead>
         <tbody>
         {% for author in author_list %}
             <tr>
                 <td><a href="{{ author.get_absolute_url }}" >{{ author.first_name }} {{ author.last_name }}</a></td>
+                <td>{{ author.book_set.all|join:", " }}</td><!-- author.book_set.all returns all book records where the ForeignKey 'author' field is associated with this author -->
             </tr>
         {% endfor %}
         </table>

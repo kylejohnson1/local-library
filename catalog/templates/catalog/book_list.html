@@ -6,14 +6,24 @@
         <p><a href="{% url 'book_create' %}">Create Book</a></p>
     {% endif %}
     <p>Here you can browse a list of all books available from LocalLibrary.</p>
+    <form action="" method="GET">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
     {% if book_list %}
     <table class="table table-dark table-hover">
         <thead>
             <tr>
-                <th><a href="?order_by=title">Title</a></th>
+                <!-- <th><a href="?order_by=title">Title</a></th>
                 <th><a href="?order_by=author">Author</a></th>
-                <th><a href="?order_by=language">Language</a></th>
+                <th><a href="?order_by=language">Language</a></th> -->
+                <th>Title</th>
+                <th>Author</th>
+                <th>Language</th>
                 <th>Genre(s)</th>
+                <th># of Copies</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +33,7 @@
                 <td><a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></td>
                 <td>{{ book.language }}</td>
                 <td>{{ book.genre.all|join:", " }}</td>
+                <td>{{ book.bookinstance_set.all.count }}</td>
             </tr>
         {% endfor %}
         </tbody>
